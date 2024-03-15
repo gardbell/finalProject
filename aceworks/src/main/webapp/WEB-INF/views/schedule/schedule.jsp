@@ -79,6 +79,7 @@ var count=0;
 var lastDate=0;
 var row=0;
 function callCal(pyear,pmonth){
+	row=0;
 	if(pyear!=0&&pmonth!=0){
 		now = new Date(pyear,pmonth,1);
 	}else if(pyear!=0&&pmonth==0){
@@ -89,13 +90,15 @@ function callCal(pyear,pmonth){
 	getRow();
 	createCal();
 	getTop();
+	alert(year+'/'+month+'/'+lastDate);
 }
 function getRow(){
 	year=now.getFullYear();
 	month=now.getMonth();
+	lastDate = new Date(year,(month+1),0).getDate();
 	firstDay = new Date(year,month,1).getDay();
+	
 	count = firstDay;
-	lastDate = new Date(year,month+1,0).getDate();
 	for(var i=1;i<=lastDate;i++){
 		if(count==6){
 			count=-1;
@@ -109,6 +112,7 @@ function getRow(){
 function createCal(){
 	count=1;
 	var tableNode=document.getElementById('calendar');
+	tableNode.innerHTML = "";
 	for(var j=1;j<=row;j++){
 		var trNode=document.createElement('tr');
 		for(var i=0;i<=6;i++){
@@ -129,7 +133,7 @@ function createCal(){
 			var tdListNode=document.createElement('div');
 			tdNode.appendChild(tdListNode);
 			trNode.appendChild(tdNode);
-			if(count==lastDate&&firstDay!=6){
+			if(count==lastDate&&i!=6){
 				var voidTdNode=document.createElement('td');
 				voidTdNode.setAttribute('colspan',6-i);
 				voidTdNode.setAttribute('class','voidTdNode');
@@ -144,25 +148,51 @@ function createCal(){
 function getTop(){
 	var hDiv=document.getElementById('month');
 	hDiv.setAttribute('style','text-align:center;')
+	getYear(hDiv);
+	getMonth(hDiv);
+}
+function getYear(hDiv){
 	var hyear=hDiv.firstChild;
-	var hmonth=hDiv.lastChild;
+	hyear.innerHTML = "";
 	var hySelect=document.createElement('select');
 	hySelect.setAttribute('class','custom-select');
+	
 	for(var i=criyear-20;i<=criyear+20;i++){
 		var opNode=document.createElement('option');
 		opNode.setAttribute('value',i);
-		opNode.setAttribute('onchange','createCal');
+		if(i==year){
+			opNode.setAttribute('selected','selected');
+		}
+		opNode.innerHTML=i;
+		hySelect.appendChild(opNode);
 	}
+	hySelect.setAttribute('onchange','callCal(this.value,'+month+')');
+	hyear.appendChild(hySelect);
+}
+function getMonth(hDiv){
+	//year 비교용
+	var hyear=hDiv.firstChild;
+	hyear.innerHTML = "";
+	var hySelect=document.createElement('select');
+	hySelect.setAttribute('class','custom-select');
+	
+	for(var i=criyear-20;i<=criyear+20;i++){
+		var opNode=document.createElement('option');
+		opNode.setAttribute('value',i);
+		if(i==year){
+			opNode.setAttribute('selected','selected');
+		}
+		opNode.innerHTML=i;
+		hySelect.appendChild(opNode);
+	}
+	hySelect.setAttribute('onchange','callCal(this.value,'+month+')');
+	hyear.appendChild(hySelect);
 	
 	
-	
-	
-	
-	
-	
-	
-	hyear.appendChild(hyText);
-	var hText=document.createTextNode('\u00A0\u00A0\u00A0\u00A0'+month+'\u00A0\u00A0\u00A0\u00A0');
+	//month
+	var hmonth=hDiv.lastChild;
+	hmonth.innerHTML = "";
+	var hText=document.createTextNode('\u00A0\u00A0\u00A0\u00A0'+(month+1)+'\u00A0\u00A0\u00A0\u00A0');
 	var hlp=document.createElement('span');
 	var hl=document.createTextNode('<');
 	hlp.appendChild(hl);
@@ -190,12 +220,5 @@ function getTop(){
 </div>
 <table id="calendar" cellspacing="0">
 </table>
-<div class="custom-select">
-    <select>
-        <option value="1">옵션 1</option>
-        <option value="2">옵션 2</option>
-        <option value="3">옵션 3</option>
-    </select>
-</div>
 </body>
 </html>

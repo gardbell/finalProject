@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ace.member">
+	<insert id="memberInsert" parameterType="com.ace.member.model.MemberDTO">
+		insert into 
+			member 
+		values(idx_idx.nextval,
+			#{com_idx}, 
+			#{name},
+			#{id}, 
+			#{pwd}, 
+			#{email}, 
+			#{addr}, 
+			#{tel},
+			#{hum_num},
+			#{dept},
+			0,
+			0,
+			sysdate)
+	</insert>
+	<select id="memberLogin" resultType="String">
+		select pwd from member where id=#{id}
+	</select>
+	<select id="getUserInfo" resultType="com.ace.member.model.MemberDTO">
+		select 
+			* 
+		from
+			member
+		where id=#{id} 
+	</select>
+	<select id="idCheck" parameterType="String" resultType="String">
+		select id from member where id=#{id}
+	</select>
+</mapper>

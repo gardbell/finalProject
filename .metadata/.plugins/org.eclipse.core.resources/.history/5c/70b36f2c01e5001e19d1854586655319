@@ -1,0 +1,68 @@
+package com.ace.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
+
+import com.ace.member.model.MemberDAO;
+import com.ace.member.model.MemberDTO;
+
+@Controller
+public class MemberControlller {
+	
+	@Autowired
+	private MemberDAO memberDao;
+	
+	@RequestMapping("/member.do")
+	public String member() {
+		return "member/member";
+	}
+	@RequestMapping(value = "/memberJoin.do", method = RequestMethod.GET)
+	public String memberJoin() {
+		return "member/memberJoin";
+	}
+	@RequestMapping(value = "/memberJoin.do", method = RequestMethod.POST)
+	public ModelAndView memberJoinOk(MemberDTO dto) {
+		int result = memberDao.memberJoin(dto);
+		String msg = result>0?"회원가입 성공":"회원가입 실패";
+		String url = "/aceworks";
+		ModelAndView mav = new ModelAndView();
+		mav.addObject("msg", msg);
+		mav.addObject("url", url);
+		mav.setViewName("member/message");
+		return mav;
+	}
+	@RequestMapping("/companyJoin.do")
+	public String companyJoin() {
+		return "member/companyJoin";
+	}
+	@RequestMapping("/idpwFind.do")
+	public String idpwFind() {
+		return "member/idpwFind";
+	}
+	@RequestMapping("/idpwMemId.do")
+	public String idpwMemId() {
+		return "member/idpwMemId";
+	}
+	@RequestMapping("/idpwMemPwd.do")
+	public String idpwMemPwd() {
+		return "member/idpwMemPwd";
+	}
+	
+	
+	@RequestMapping("/idCheck.do")
+	public ModelAndView idCheckSubmit(MemberDTO dto) {
+		boolean result = memberDao.idCheck(dto.getId());
+		ModelAndView mav = new ModelAndView();
+		String msg = result==true?"이미 등록된 아이디 입니다.":"사용 가능한 아이디 입니다.";
+		mav.addObject("msg",msg);
+		mav.setViewName("member/idCheckMsg");	
+		return mav;
+	}
+	
+}

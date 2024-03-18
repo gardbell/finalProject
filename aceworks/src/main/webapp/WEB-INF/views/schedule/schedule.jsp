@@ -6,6 +6,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>schedule</title>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <style>
 table {
 	margin: 10px auto;
@@ -110,6 +111,19 @@ input[type="button"] {
 	width: 100%;
 	background-color: rgba(0, 0, 0, 0.5);
 	display: none;
+	z-index: 900;
+	align-items: center;
+	justify-content: center;
+}
+
+#on_input {
+	position: absolute;
+	top: 0;
+	left: 0;
+	height: 140vh;
+	width: 100%;
+	background-color: rgba(0, 0, 0, 0.5);
+	display: none;
 	z-index: 999;
 	align-items: center;
 	justify-content: center;
@@ -117,9 +131,36 @@ input[type="button"] {
 
 #schedule_form {
 	text-align: center;
-	background-color: white;
+	background-color: skyblue;
 	width: 350px;
 	height: 500px;
+}
+#input_form {
+	text-align: center;
+	background-color: skyblue;
+	width: 350px;
+	height: 500px;
+}
+#sdiv{
+	clear:both;
+	width:300px;
+	height:350px;
+}
+#goButton{
+	margin-left:30px;
+	padding-top: 1px;
+	padding-left: 1px;
+	width:20px;
+	height:20px;
+	background-color: silver;
+}
+#ico{
+	font-size: 15px;
+}
+#closeButton{
+	float: right;
+	border:none;
+	background: none;
 }
 </style>
 <script>
@@ -127,10 +168,8 @@ input[type="button"] {
 	var year = 0;
 	var criyear = now.getFullYear();
 	var month = 0;
-	var days = [ "sunday", "monthday", "tuesday", "wednesday", "thursday",
-			"friday", "saturday" ];
+	var days = ['sunday','monthday','tuesday','wednesday','thursday','friday','saturday'];
 	var firstDay = 0;
-	;
 	var count = 0;
 	var lastDate = 0;
 	var row = 0;
@@ -175,8 +214,7 @@ input[type="button"] {
 					i = firstDay;
 				}
 				var tdNode = document.createElement('td');
-				tdNode.setAttribute('onclick', 'showOnArt(' + year + ','
-						+ month + ',' + count + ')');
+				tdNode.setAttribute('onclick', 'showOnArt('+year+','+month +','+ count+','+i+')');
 				var tdDivNode = document.createElement('div');
 				tdDivNode.setAttribute('class', days[i]);
 				tdDivNode.setAttribute('id', 'tdver');
@@ -219,7 +257,7 @@ input[type="button"] {
 			opNode.innerHTML = i;
 			hySelect.appendChild(opNode);
 		}
-		hySelect.setAttribute('onchange', 'callCal(this.value,' + month + ')');
+		hySelect.setAttribute('onchange', 'callCal(this.value,'+month+')');
 		hyear.appendChild(hySelect);
 	}
 	function getMonth(hDiv) {
@@ -241,31 +279,77 @@ input[type="button"] {
 		var hlp = document.createElement('input');
 		hlp.setAttribute('type', 'button');
 		hlp.setAttribute('value', '<');
-		hlp
-				.setAttribute('onclick', 'callCal(' + year + ',' + (month - 1)
-						+ ')');
+		hlp.setAttribute('onclick', 'callCal('+year+','+(month-1)+')');
 		var hrp = document.createElement('input');
 		hrp.setAttribute('type', 'button');
 		hrp.setAttribute('value', '>');
-		hrp
-				.setAttribute('onclick', 'callCal(' + year + ',' + (month + 1)
-						+ ')');
+		hrp.setAttribute('onclick','callCal('+year+','+(month+1)+')');
 		hmonth.appendChild(hlp);
 		hmonth.appendChild(hText);
 		hmonth.appendChild(hrp);
 		hDiv.appendChild(hmonth);
 	}
-	function showOnArt(year, month, date) {
+	function showOnArt(year,month,date,i) {
+		var nowDate=new Date(year,month,date);
+		var day=days[i]
+		var formNode=document.getElementById("schedule_form");
+		formNode.innerHTML="";
+		var hNode=document.createElement('h1');
+		hNode.setAttribute('style','display: inline;');
+		var dateNode=document.createTextNode(year+'.'+(month+1)+'.'+date+'.'+day);
+		hNode.appendChild(dateNode);
+		formNode.appendChild(hNode);
+		var inserBt=document.createElement('button');
+		inserBt.setAttribute('type','button');
+		inserBt.innerHTML='<i id="ico" class="material-icons">edit</i>';
+		inserBt.setAttribute('id','goButton');
+		inserBt.setAttribute('onclick','showOnDiv('+nowDate+')');
+		formNode.appendChild(inserBt);
+		var closeBt=document.createElement('button');
+		closeBt.setAttribute('type','button');
+		closeBt.setAttribute('onclick','hideOnArt()');
+		closeBt.innerHTML='X';
+		closeBt.setAttribute('id','closeButton');
+		formNode.appendChild(closeBt);
+		
+		var sdiv=document.createElement('div');
+		sdiv.setAttribute('id','sdiv');
 
 		document.getElementById("on_art").style.display = "flex";
 	}
 	function hideOnArt() {
 		document.getElementById("on_art").style.display = "none";
 	}
+	function showOnDiv(year,month,date,i) {
+		var nowDate=new Date(year,month,date);
+		var day=days[i]
+		var formNode=document.getElementById("schedule_form");
+		formNode.innerHTML="";
+		var hNode=document.createElement('h1');
+		hNode.setAttribute('style','display: inline;');
+		var dateNode=document.createTextNode(year+'.'+(month+1)+'.'+date+'.'+day);
+		hNode.appendChild(dateNode);
+		formNode.appendChild(hNode);
+		var closeBt=document.createElement('button');
+		closeBt.setAttribute('type','button');
+		closeBt.setAttribute('onclick','hideOnDiv()');
+		closeBt.innerHTML='X';
+		closeBt.setAttribute('id','closeButton');
+		formNode.appendChild(closeBt);
+		
+		var sdiv=document.createElement('div');
+		sdiv.setAttribute('id','sdiv');
+
+		document.getElementById("on_art").style.display = "flex";
+	}
+	function hideOnDiv() {
+		document.getElementById("on_div").style.display = "none";
+	}
 </script>
 </head>
 <body onload="javascript:callCal(0,0)">
 	<section>
+	<a href="goMain.do">인덱스</a>
 		<article id="under_art">
 			<a href="javascript:showOnArt()">띄우기</a>
 			<h1>캘린더</h1>
@@ -299,7 +383,11 @@ input[type="button"] {
 		<article id="on_art">
 			<div id="schedule_form">
 
-				<a href="javascript:hideOnArt()">닫기</a>
+			</div>
+		</article>
+		<article id="on_input">
+			<div id="input_form">
+
 			</div>
 		</article>
 	</section>

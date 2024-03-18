@@ -101,6 +101,7 @@ input[type="button"] {
 	font-size: 35px;
 	background-color: #ffffff;
 }
+
 #on_art {
 	position: absolute;
 	top: 0;
@@ -111,9 +112,10 @@ input[type="button"] {
 	display: none;
 	z-index: 999;
 	align-items: center;
-    justify-content: center;
+	justify-content: center;
 }
-#schedule_form{
+
+#schedule_form {
 	text-align: center;
 	background-color: white;
 	width: 350px;
@@ -128,6 +130,7 @@ input[type="button"] {
 	var days = [ "sunday", "monthday", "tuesday", "wednesday", "thursday",
 			"friday", "saturday" ];
 	var firstDay = 0;
+	;
 	var count = 0;
 	var lastDate = 0;
 	var row = 0;
@@ -172,7 +175,8 @@ input[type="button"] {
 					i = firstDay;
 				}
 				var tdNode = document.createElement('td');
-				tdNode.setAttribute('onclick','showOnArt('+year+','+month+','+date+')');
+				tdNode.setAttribute('onclick', 'showOnArt(' + year + ','
+						+ month + ',' + count + ')');
 				var tdDivNode = document.createElement('div');
 				tdDivNode.setAttribute('class', days[i]);
 				tdDivNode.setAttribute('id', 'tdver');
@@ -233,6 +237,7 @@ input[type="button"] {
 			hText.appendChild(opNode);
 		}
 		hText.setAttribute('onchange', 'callCal(' + year + ',this.value)');
+
 		var hlp = document.createElement('input');
 		hlp.setAttribute('type', 'button');
 		hlp.setAttribute('value', '<');
@@ -250,21 +255,13 @@ input[type="button"] {
 		hmonth.appendChild(hrp);
 		hDiv.appendChild(hmonth);
 	}
-	function showOnArt(year,month,date) {
-		
-		
-		
-		
-		
-		
-		
-	    document.getElementById("on_art").style.display = "flex";
-	}
+	function showOnArt(year, month, date) {
 
-	function hideOnArt() {
-	    document.getElementById("on_art").style.display = "none";
+		document.getElementById("on_art").style.display = "flex";
 	}
-	
+	function hideOnArt() {
+		document.getElementById("on_art").style.display = "none";
+	}
 </script>
 </head>
 <body onload="javascript:callCal(0,0)">
@@ -272,10 +269,7 @@ input[type="button"] {
 		<article id="under_art">
 			<a href="javascript:showOnArt()">띄우기</a>
 			<h1>캘린더</h1>
-			<div id="month">
-				<div></div>
-				<h1></h1>
-			</div>
+			<div id="month"><div></div><h1></h1></div>
 			<div style="margin: 0px auto; width: 700px;">
 				<div class="weekName-div">
 					<label class="sunday">sun</label>
@@ -304,7 +298,7 @@ input[type="button"] {
 		</article>
 		<article id="on_art">
 			<div id="schedule_form">
-			
+
 				<a href="javascript:hideOnArt()">닫기</a>
 			</div>
 		</article>

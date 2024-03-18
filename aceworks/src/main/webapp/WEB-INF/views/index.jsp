@@ -8,6 +8,5 @@
 </head>
 <body>
 <a href="schedule.do">스케쥴</a>
-<a href="test.do">테스트</a>
 </body>
 </html>

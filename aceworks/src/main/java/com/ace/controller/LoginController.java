@@ -50,11 +50,9 @@ public class LoginController {
 				ck.setMaxAge(0);//쿠키심자마자사라짐(삭제)
 				resp.addCookie(ck);
 			}
-			
 			MemberDTO dto = memberDao.getUserInfo(userid);
 			session.setAttribute("dto", dto);
 			session.setAttribute("userid", userid);
-			System.out.println(dto.getRank_num());
 			mav.addObject("msg", dto.getName() +"님 환영합니다.");
 			
 			mav.addObject("url", "goMain.do");

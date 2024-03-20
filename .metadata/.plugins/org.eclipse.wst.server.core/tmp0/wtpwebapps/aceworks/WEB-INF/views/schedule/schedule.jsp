@@ -320,9 +320,8 @@ input[type="button"] {
 	function hideOnArt() {
 		document.getElementById("on_art").style.display = "none";
 	}
-	function showOnDiv(year,month,date,i) {
+	function showOnDiv(date) {
 		var nowDate=new Date(year,month,date);
-		var day=days[i]
 		var formNode=document.getElementById("schedule_form");
 		formNode.innerHTML="";
 		var hNode=document.createElement('h1');
@@ -389,6 +388,10 @@ input[type="button"] {
 			<div id="input_form">
 
 			</div>
+			<form name="scheinputForm" action="insertsche">
+				<input type="hidden" name="idx" value="${idx }">
+				<input type="hidden" name="com_idx" value="${idx }">
+			</form>
 		</article>
 	</section>
 </body>

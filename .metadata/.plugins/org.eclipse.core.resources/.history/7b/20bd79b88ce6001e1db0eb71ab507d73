@@ -1,0 +1,10 @@
+package com.ace.schedule.model;
+
+public class ScheduleDAOImple implements ScheduleDAO {
+
+	public int addSchedule(ScheduleDTO dto) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+}

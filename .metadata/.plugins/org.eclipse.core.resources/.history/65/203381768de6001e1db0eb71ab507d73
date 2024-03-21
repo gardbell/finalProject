@@ -1,0 +1,19 @@
+package com.ace.schedule.service;
+
+import com.ace.schedule.model.*;
+
+public class ScheduleServiceImple {
+	
+	private ScheduleDAO dao;
+
+	public ScheduleDAO getDao() {
+		return dao;
+	}
+
+	public void setDao(ScheduleDAO dao) {
+		this.dao = dao;
+	}
+
+	
+
+}

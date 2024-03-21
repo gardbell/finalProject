@@ -1,0 +1,36 @@
+package com.ace.controller;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
+
+import com.ace.schedule.model.ScheduleDTO;
+
+@Controller
+public class ScheduleController {
+
+	@RequestMapping("/schedule.do")
+	public ModelAndView schedule() {
+		
+		ModelAndView mav=new ModelAndView();
+		
+		mav.setViewName("schedule/schedule");
+		return mav;
+	}
+	
+	@RequestMapping("/addSchedule.do")
+	public ModelAndView addSchedule(ScheduleDTO dto) {
+		if(dto.getSmna()==2) {
+			dto.setStime(dto.getStime()+12);
+		}
+		if(dto.getEmna()==2) {
+			dto.setEtime(dto.getEtime()+12);
+		}
+		
+		ModelAndView mav=new ModelAndView();
+		
+		mav.setViewName("yongJSON");
+		return mav;
+	}
+	
+}

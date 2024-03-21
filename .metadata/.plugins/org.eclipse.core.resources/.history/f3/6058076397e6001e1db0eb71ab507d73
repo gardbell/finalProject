@@ -1,0 +1,37 @@
+package com.ace.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
+
+import com.ace.schedule.model.ScheduleDTO;
+import com.ace.schedule.service.ScheduleService;
+
+@Controller
+public class ScheduleController {
+	
+	@Autowired
+	private ScheduleService scheduleservice;
+
+	@RequestMapping("/schedule.do")
+	public ModelAndView schedule() {
+		
+		ModelAndView mav=new ModelAndView();
+		
+		mav.setViewName("schedule/schedule");
+		return mav;
+	}
+	
+	@RequestMapping("/addSchedule.do")
+	public ModelAndView addSchedule(ScheduleDTO dto) {
+
+		int result=scheduleservice.addSchedule(dto);
+		
+		ModelAndView mav=new ModelAndView();
+		
+		mav.setViewName("yongJSON");
+		return mav;
+	}
+	
+}

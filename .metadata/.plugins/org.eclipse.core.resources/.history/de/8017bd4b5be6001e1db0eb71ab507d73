@@ -1,0 +1,157 @@
+@charset "UTF-8";
+<style>
+#calendar {
+	margin: 10px auto;
+	float: bottom;
+}
+
+#month {
+	margin: 0px auto;
+}
+
+#calendar td {
+	border-top: 1px solid gray;
+	width: 100px;
+	height: 100px;
+}
+
+.sunday {
+	color: red;
+}
+
+.monthday {
+	
+}
+
+.tuesday {
+	
+}
+
+.wednesday {
+	
+}
+
+.thursday {
+	
+}
+
+.friday {
+	
+}
+
+.saturday {
+	color: blue;
+}
+
+#tdver {
+	position: relative;
+	top: -42px;
+}
+
+.weekName-div {
+	text-align: center;
+	width: 100px;
+	display: inline;
+	float: left;
+}
+
+select {
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+	background-color: transparent;
+	border: none;
+	outline: none;
+}
+
+.year-select {
+	display: inline-block;
+	padding: 5px 10px;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+	background-color: #fff;
+	cursor: pointer;
+}
+
+.month-select {
+	font-size: 35px;
+	text-align: center;
+	display: inline-block;
+	padding: 10px 10px;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+	background-color: #fff;
+	margin-left: 30px;
+	margin-right: 30px;
+	cursor: pointer;
+	position: relative;
+}
+
+input[type="button"] {
+	width: 35px;
+	height: 50px;
+	border: none;
+	font-size: 35px;
+	background-color: #ffffff;
+}
+
+#on_art {
+	position: absolute;
+	top: 0;
+	left: 0;
+	height: 140vh;
+	width: 100%;
+	background-color: rgba(0, 0, 0, 0.5);
+	display: none;
+	z-index: 900;
+	align-items: center;
+	justify-content: center;
+}
+
+#on_input {
+	position: absolute;
+	top: 0;
+	left: 0;
+	height: 140vh;
+	width: 100%;
+	background-color: rgba(0, 0, 0, 0.5);
+	display: none;
+	z-index: 999;
+	align-items: center;
+	justify-content: center;
+}
+
+#schedule_form {
+	text-align: center;
+	background-color: skyblue;
+	width: 350px;
+	height: 500px;
+}
+#input_form {
+	text-align: center;
+	background-color: skyblue;
+	width: 350px;
+	height: 500px;
+}
+#sdiv{
+	clear:both;
+	width:300px;
+	height:350px;
+}
+#goButton{
+	margin-left:30px;
+	padding-top: 1px;
+	padding-left: 1px;
+	width:20px;
+	height:20px;
+	background-color: silver;
+}
+#ico{
+	font-size: 15px;
+}
+#closeButton{
+	float: right;
+	border:none;
+	background: none;
+}
+</style>

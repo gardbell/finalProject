@@ -1,0 +1,14 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<a href="test.do">테스트</a>
+<a href="selectSchedule.do?year=2024&month=2&sort=1">json</a>
+<a href="login.do">로그인</a>
+</body>
+</html>

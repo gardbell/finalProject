@@ -1,0 +1,5 @@
+package com.ace.schedule.service;
+
+public interface ScheduleService {
+
+}

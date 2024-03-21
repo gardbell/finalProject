@@ -1,0 +1,57 @@
+var XHR = null;
+
+function getXHR() {
+    if (window.XMLHttpRequest) {
+        return new XMLHttpRequest();
+    } else if (window.ActiveXObject) {
+        return new ActiveXObject('Microsoft.XMLHTTP');
+    } else {
+        return null;
+    }
+}
+
+function sendRequest(url, param, callback, method) {
+    XHR = getXHR();
+    
+    var newMethod = method ? method.toUpperCase() : 'GET';
+    var newUrl = url;
+    
+    if (newMethod === 'GET' && param) {
+        newUrl = url + '?' + encodeParams(param);
+    }
+    
+    if (XHR) {
+        XHR.onreadystatechange = function() {
+            if (XHR.readyState === 4) {
+                if (XHR.status === 200) {
+                    callback(XHR.responseText);
+                } else {
+                    console.error("요청에 실패했습니다.");
+                }
+            }
+        };
+        
+        XHR.open(newMethod, newUrl, true);
+        XHR.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        
+        if (newMethod === 'POST') {
+            XHR.send(encodeParams(param));
+        } else {
+            XHR.send();
+        }
+    } else {
+        console.error("XMLHttpRequest 객체가 생성되지 않았습니다.");
+    }
+}
+
+function encodeParams(params) {
+    var encodedParams = [];
+    
+    for (var key in params) {
+        if (params.hasOwnProperty(key)) {
+            encodedParams.push(encodeURIComponent(key) + '=' + encodeURIComponent(params[key]));
+        }
+    }
+    
+    return encodedParams.join('&');
+}

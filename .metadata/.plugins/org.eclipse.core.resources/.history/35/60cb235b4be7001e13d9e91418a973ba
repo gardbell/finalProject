@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ace.schedule">
+	<insert id="insertSchedule" parameterType="com.ace.schedule.model.ScheduleDTO">
+		insert into
+		scheduler
+		values(
+		#{idx},
+		#{com_idx},
+		#{sort},
+		#{title},
+		#{content},
+		to_date(#{sdate}),
+		#{stime},
+		#{etime}
+		)
+	</insert>
+	<select id="selectSchedule" parameterType="Map" resultType="com.ace.schedule.model.ScheduleDTO">
+	
+	</select>
+</mapper>

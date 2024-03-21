@@ -1,0 +1,23 @@
+package com.ace.schedule.service;
+
+import com.ace.schedule.model.ScheduleDAO;
+import com.ace.schedule.model.ScheduleDTO;
+
+public class ScheduleServiceImple implements ScheduleDAO {
+	
+	private ScheduleDAO dao;
+
+	public ScheduleDAO getDao() {
+		return dao;
+	}
+
+	public void setDao(ScheduleDAO dao) {
+		this.dao = dao;
+	}
+
+	public int addSchedule(ScheduleDTO dto) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+}

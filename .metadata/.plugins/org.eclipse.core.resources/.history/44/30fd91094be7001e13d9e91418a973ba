@@ -1,0 +1,7 @@
+package com.ace.schedule.model;
+
+public interface ScheduleDAO {
+	
+	public int addSchedule(ScheduleDTO dto);
+
+}

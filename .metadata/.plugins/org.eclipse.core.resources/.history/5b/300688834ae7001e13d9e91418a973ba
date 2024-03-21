@@ -1,0 +1,19 @@
+package com.ace.schedule.model;
+
+import org.mybatis.spring.SqlSessionTemplate;
+
+public class ScheduleDAOImple implements ScheduleDAO {
+	
+	private SqlSessionTemplate sqlmap;
+
+	public ScheduleDAOImple(SqlSessionTemplate sqlmap) {
+		super();
+		this.sqlmap = sqlmap;
+	}
+
+	public int addSchedule(ScheduleDTO dto) {
+		int result=sqlmap.insert("insertSchedule", dto);
+		return result;
+	}
+
+}

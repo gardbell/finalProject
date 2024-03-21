@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ace.schedule">
+	<insert id="insertSchedule" parameterType="com.ace.schedule.model.ScheduleDTO">
+		insert into
+		scheduler
+		values(
+		#{idx},
+		#{com_idx},
+		#{sort},
+		#{title},
+		#{content},
+		to_date(#{sdate}),
+		#{stime},
+		#{etime}
+		)
+	</insert>
+	<select id="selectSchedule" parameterType="Map" resultType="com.ace.schedule.model.ScheduleDTO">
+		SELECT *
+		FROM scheduler
+		WHERE EXTRACT(YEAR FROM sdate) = 2024 AND 
+		EXTRACT(MONTH FROM sdate) = 2 and sort=3 and 
+		com_idx=2 order by stime
+	</select>
+</mapper>

@@ -1,0 +1,28 @@
+package com.ace.schedule.service;
+
+import com.ace.schedule.model.*;
+
+public class ScheduleServiceImple implements ScheduleDAO {
+	
+	private ScheduleDAO dao;
+
+	public ScheduleServiceImple(ScheduleDAO dao) {
+		super();
+		this.dao = dao;
+	}
+
+	public int addSchedule(ScheduleDTO dto) {
+		int result=2;
+		if(!(dto.getTitle()==null||dto.getTitle().equals(""))&&!(dto.getContent()==null||dto.getContent().equals(""))) {
+			if(dto.getSmna()==2) {
+				dto.setStime(dto.getStime()+12);
+			}
+			if(dto.getEmna()==2) {
+				dto.setEtime(dto.getEtime()+12);
+			}
+			result=dao.addSchedule(dto);
+		}
+		return result;
+	}
+
+}

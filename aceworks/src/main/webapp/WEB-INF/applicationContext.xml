@@ -35,4 +35,11 @@
          <ref bean="sqlSessionTemplate"/>
       </constructor-arg>
    </bean>
+   <bean id="scheduleDao" class="com.ace.schedule.model.ScheduleDAOImple">
+   	<constructor-arg>
+   		<ref bean="sqlSessionTemplate"/>
+   	</constructor-arg>
+   </bean>
+   
+   
 </beans>

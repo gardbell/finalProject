@@ -1,3 +1,4 @@
+<%@page import="com.ace.member.model.MemberDTO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -8,7 +9,7 @@
 <title>schedule</title>
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <style>
-table {
+#calendar {
 	margin: 10px auto;
 	clear: both;
 }
@@ -17,7 +18,7 @@ table {
 	margin: 0px auto;
 }
 
-table td {
+#calendar td {
 	border-top: 1px solid gray;
 	width: 100px;
 	height: 100px;
@@ -64,15 +65,17 @@ table td {
 }
 
 select {
+	border: none;
+	outline: none;
+}
+
+.year-select {
 	-webkit-appearance: none;
 	-moz-appearance: none;
 	appearance: none;
 	background-color: transparent;
 	border: none;
 	outline: none;
-}
-
-.year-select {
 	display: inline-block;
 	padding: 5px 10px;
 	border: 1px solid #ccc;
@@ -82,6 +85,12 @@ select {
 }
 
 .month-select {
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+	background-color: transparent;
+	border: none;
+	outline: none;
 	font-size: 35px;
 	text-align: center;
 	display: inline-block;
@@ -144,7 +153,9 @@ input[type="button"] {
 #sdiv{
 	clear:both;
 	width:300px;
-	height:350px;
+	height:425px;
+	background: white;
+	margin: 10px auto;
 }
 #goButton{
 	margin-left:30px;
@@ -163,6 +174,7 @@ input[type="button"] {
 	background: none;
 }
 </style>
+<script src="js/httpRequest.js"></script>
 <script>
 	var now = new Date();
 	var year = 0;
@@ -173,15 +185,32 @@ input[type="button"] {
 	var count = 0;
 	var lastDate = 0;
 	var row = 0;
-	function callCal(pyear, pmonth) {
+	var idx=0;
+	var com_idx=0;
+	var sort=0;
+	//페이지 실행될때
+	function startPage(pidx,pcom_idx,psort){
+		userInfo(pidx,pcom_idx,psort)
+		callCal(0,0,1);
+	}
+	//유저 정보 기본세팅
+	function userInfo(pidx,pcom_idx,psort){
+		idx=pidx;
+		com_idx=pcom_idx;
+		sort=psort;
+	}
+	//달력 호출
+	function callCal(pyear, pmonth, psort) {
 		row = 0;
 		if (pyear != 0 || pmonth != 0) {
 			now = new Date(pyear, pmonth, 1);
 		}
 		getRow();
 		getTop();
-		createCal();
+		
+		createCal(psort);
 	}
+	//유동적으로 변하는 달의 행을 구하는 거시기
 	function getRow() {
 		year = now.getFullYear();
 		month = now.getMonth();
@@ -199,6 +228,7 @@ input[type="button"] {
 			count += 1;
 		}
 	}
+	//달력 만들어주는 함수
 	function createCal() {
 		count = 1;
 		var tableNode = document.getElementById('calendar');
@@ -236,12 +266,14 @@ input[type="button"] {
 			tableNode.appendChild(trNode);
 		}
 	}
+	//고정되는 달력의 상단부분
 	function getTop() {
 		var hDiv = document.getElementById('month');
 		hDiv.setAttribute('style', 'text-align:center;')
 		getYear(hDiv);
 		getMonth(hDiv);
 	}
+	//연도 동적으로 바꿀수 있게 하는 함수
 	function getYear(hDiv) {
 		var hyear = hDiv.firstChild;
 		hyear.innerHTML = "";
@@ -260,6 +292,7 @@ input[type="button"] {
 		hySelect.setAttribute('onchange', 'callCal(this.value,'+month+')');
 		hyear.appendChild(hySelect);
 	}
+	//월 동적으로 바꿀수 있게하는 함수
 	function getMonth(hDiv) {
 		var hmonth = hDiv.lastChild;
 		hmonth.innerHTML = "";
@@ -289,8 +322,13 @@ input[type="button"] {
 		hmonth.appendChild(hrp);
 		hDiv.appendChild(hmonth);
 	}
+	// 달력의 분류 바꿔주는 함수
+	function changeSort(psort){
+		alert(psort);
+		sort=psort;
+	}
+	// 일을 클릭했을때 일정 정보 영역 호출하는 함수
 	function showOnArt(year,month,date,i) {
-		var nowDate=new Date(year,month,date);
 		var day=days[i]
 		var formNode=document.getElementById("schedule_form");
 		formNode.innerHTML="";
@@ -303,7 +341,7 @@ input[type="button"] {
 		inserBt.setAttribute('type','button');
 		inserBt.innerHTML='<i id="ico" class="material-icons">edit</i>';
 		inserBt.setAttribute('id','goButton');
-		inserBt.setAttribute('onclick','showOnDiv('+nowDate+')');
+		inserBt.setAttribute('onclick','showOnDiv('+year+','+month+','+date+')');
 		formNode.appendChild(inserBt);
 		var closeBt=document.createElement('button');
 		closeBt.setAttribute('type','button');
@@ -314,19 +352,20 @@ input[type="button"] {
 		
 		var sdiv=document.createElement('div');
 		sdiv.setAttribute('id','sdiv');
-
+		formNode.appendChild(sdiv);
 		document.getElementById("on_art").style.display = "flex";
 	}
+	// 일정 정보 영역 다시 숨겨주는 함수
 	function hideOnArt() {
 		document.getElementById("on_art").style.display = "none";
 	}
-	function showOnDiv(date) {
-		var nowDate=new Date(year,month,date);
-		var formNode=document.getElementById("schedule_form");
+	// 일정 등록을 위한 폼을 호출하는 함수
+	function showOnDiv(year, month, date) {
+		var formNode=document.getElementById("input_form");
 		formNode.innerHTML="";
 		var hNode=document.createElement('h1');
 		hNode.setAttribute('style','display: inline;');
-		var dateNode=document.createTextNode(year+'.'+(month+1)+'.'+date+'.'+day);
+		var dateNode=document.createTextNode('일정등록');
 		hNode.appendChild(dateNode);
 		formNode.appendChild(hNode);
 		var closeBt=document.createElement('button');
@@ -335,24 +374,134 @@ input[type="button"] {
 		closeBt.innerHTML='X';
 		closeBt.setAttribute('id','closeButton');
 		formNode.appendChild(closeBt);
-		
+		//input site
+		var brNode=document.createElement('br')
+		var hrNode1=document.createElement('hr')
+		var hrNode2=document.createElement('hr')
 		var sdiv=document.createElement('div');
 		sdiv.setAttribute('id','sdiv');
+		//title site
+		var titleText=document.createTextNode('요약:');
+		var titleNode=document.createElement('input');
+		titleNode.setAttribute('type','text');
+		titleNode.setAttribute('id','title');
+		sdiv.appendChild(titleText);
+		sdiv.appendChild(titleNode);
+		sdiv.appendChild(hrNode1);
+		//time site
+		var smnaSelectNode=document.createElement('select');
+		smnaSelectNode.setAttribute('id','smna');
+		for(var i=1;i<=2;i++){
+			var smnaOptionNode=document.createElement('option');
+			smnaOptionNode.setAttribute('value',i);
+			smnaOptionNode.innerHTML=i==1?'am':'pm';
+			smnaSelectNode.appendChild(smnaOptionNode);
+		}
+		var stimeSelectNode=document.createElement('select');
+		stimeSelectNode.setAttribute('id','stime');
+		for(var i=1;i<=12;i++){
+			var stimeOptionNode=document.createElement('option');
+			stimeOptionNode.setAttribute('value',i);
+			stimeOptionNode.innerHTML=i;
+			stimeSelectNode.appendChild(stimeOptionNode);
+		}
+		var emnaSelectNode=document.createElement('select');
+		emnaSelectNode.setAttribute('id','emna');
+		for(var i=1;i<=2;i++){
+			var emnaOptionNode=document.createElement('option');
+			emnaOptionNode.setAttribute('value',i);
+			emnaOptionNode.innerHTML=i==1?'am':'pm';
+			emnaSelectNode.appendChild(emnaOptionNode);
+		}
+		var etimeSelectNode=document.createElement('select');
+		etimeSelectNode.setAttribute('id','etime');
+		for(var i=1;i<=12;i++){
+			var etimeOptionNode=document.createElement('option');
+			etimeOptionNode.setAttribute('value',i);
+			etimeOptionNode.innerHTML=i;
+			etimeSelectNode.appendChild(etimeOptionNode);
+		}
+		var waveNode=document.createTextNode('~');
+		sdiv.appendChild(smnaSelectNode);
+		sdiv.appendChild(stimeSelectNode);
+		sdiv.appendChild(waveNode);
+		sdiv.appendChild(emnaSelectNode);
+		sdiv.appendChild(etimeSelectNode);
+		sdiv.appendChild(hrNode2);
+		//textarea site
+		var contentText=document.createTextNode('상세설명(공백 포함 500자 미만)');
+		var contentNode=document.createElement('textarea');
+		contentNode.setAttribute('id','content');
+		contentNode.setAttribute('rows','18');
+		contentNode.setAttribute('cols','30');
+		sdiv.appendChild(contentText);
+		sdiv.appendChild(brNode);
+		sdiv.appendChild(contentNode);
+		formNode.appendChild(sdiv);
+		//addSchedule site
+		var submitNode=document.createElement('button');
+		submitNode.setAttribute('id','submitBt');
+		submitNode.setAttribute('onclick','addSchedule(new Date('+year+','+month+','+date+'))');
+		submitNode.innerHTML='등록';
+		
+		formNode.appendChild(submitNode);
 
-		document.getElementById("on_art").style.display = "flex";
+		document.getElementById("on_input").style.display = "flex";
 	}
+	// 일정등록 폼 다시 숨겨주는 함수
 	function hideOnDiv() {
-		document.getElementById("on_div").style.display = "none";
+		document.getElementById("on_input").style.display = "none";
+	}
+	// 일정등록을 수행하는 함수
+	function addSchedule(nowDate){
+		var title=document.getElementById('title');
+		var content=document.getElementById('content');
+		var stime=document.getElementById('stime');
+		var etime=document.getElementById('etime');
+		var smna=document.getElementById('smna');
+		var emna=document.getElementById('emna');
+		
+		var nyear = nowDate.getFullYear();
+		var nmonth = nowDate.getMonth()+1;
+		var ndate = nowDate.getDate();
+		var sdate='';
+		sdate = nyear+'-'+nmonth+'-'+ndate;
+		
+		var param='idx='+idx+'&com_idx='+com_idx+'&sort='+sort+'&title='+title.value+
+		'&content='+content.value+'&sdate='+sdate+'&stime='+stime.value+'&etime='+etime.value+
+		'&smna='+smna.value+'&emna='+emna.value;
+		sendRequest('addSchedule.do',param,showResult,'POST');
+	}
+	//일정 등록 결과를 보여주는 함수
+	function showResult(){
+		if(XHR.readyState==4){
+			if(XHR.status==200){
+				var data=XHR.responseText;
+				data=JSON.parse(data);
+				var msg=data.msg;
+				alert(msg);
+				if(msg=='등록성공'){
+					hideOnDiv()
+				}
+			}
+		}
 	}
 </script>
 </head>
-<body onload="javascript:callCal(0,0)">
+<body onload="javascript:startPage(${sessionScope.dto.idx },${sessionScope.dto.com_idx },1)">
 	<section>
 	<a href="goMain.do">인덱스</a>
 		<article id="under_art">
 			<a href="javascript:showOnArt()">띄우기</a>
 			<h1>캘린더</h1>
 			<div id="month"><div></div><h1></h1></div>
+			<div id="selectSort">
+				<select onchange="changeSort(this.value)">
+					<option value="1">개인</option>
+					<option value="2">부서</option>
+					<option value="3">회사</option>
+				</select>
+			</div>
 			<div style="margin: 0px auto; width: 700px;">
 				<div class="weekName-div">
 					<label class="sunday">sun</label>
@@ -380,18 +529,10 @@ input[type="button"] {
 			</table>
 		</article>
 		<article id="on_art">
-			<div id="schedule_form">
-
-			</div>
+			<div id="schedule_form"></div>
 		</article>
 		<article id="on_input">
-			<div id="input_form">
-
-			</div>
-			<form name="scheinputForm" action="insertsche">
-				<input type="hidden" name="idx" value="${idx }">
-				<input type="hidden" name="com_idx" value="${idx }">
-			</form>
+			<div id="input_form"></div>
 		</article>
 	</section>
 </body>

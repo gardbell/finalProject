@@ -637,6 +637,7 @@ ul{
 			}
 		}
 	}
+	
 	//수정 결과 보여주는 함수
 	function upResult(){
 		if(XHR.readyState==4){

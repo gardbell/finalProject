@@ -23,5 +23,10 @@ public class ScheduleDAOImple implements ScheduleDAO {
 		List<ScheduleDTO> list=sqlmap.selectList("selectSchedule", map);
 		return list;
 	}
+	
+	public int delSchedule(int scheduler_idx) {
+		int result=sqlmap.delete("deleteSchedule", scheduler_idx);
+		return result;
+	}
 
 }

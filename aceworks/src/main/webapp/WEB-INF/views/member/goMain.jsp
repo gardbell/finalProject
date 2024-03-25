@@ -21,7 +21,7 @@
 <a href="#">결재문서</a>
 <a href="schedule.do">스케줄</a>
 <a href="test.do">테스트</a>
-<a href="selectSchedule.do?year=2024&month=2&sort=1&idx=2&lastDate=30">json</a>
+<a href="selectSchedule.do?year=2024&month=3&sort=1&idx=14&lastDate=31">json</a>
 <a href="#">인사관리</a>
 <c:if test="${dto.rank_num == 2 || dto.rank_num == 1}">
 	<a href="#">기업관리</a>

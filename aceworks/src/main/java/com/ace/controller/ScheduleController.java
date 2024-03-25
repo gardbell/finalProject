@@ -60,6 +60,20 @@ public class ScheduleController {
 		return mav;
 	}
 	
+	@RequestMapping("/delSchedule.do")
+	public ModelAndView delShedule(int scheduler_idx) {
+		int result=scheduleService.delSchedule(scheduler_idx);
+		String msg="";
+		if(result==1) {
+			msg="삭제성공";
+		}else {
+			msg="삭제실패";
+		}
+		ModelAndView mav=new ModelAndView();
+		mav.addObject("msg", msg);
+		mav.setViewName("yongJSON");
+		return mav;
+	}
 	
 	
 }

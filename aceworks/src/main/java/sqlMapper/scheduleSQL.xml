@@ -7,6 +7,7 @@
 		insert into
 		scheduler
 		values(
+		scheduler_idx.nextval,
 		#{idx},
 		#{com_idx},
 		#{sort},
@@ -27,11 +28,16 @@
 			and idx=#{idx}
 		</if>
 		<if test="sort==2">
-			and com_idx=(select com_idx from member where idx=#{idx}) and dept=(select dept from member where idx={idx})
+			and com_idx=(select com_idx from member where idx=#{idx}) and (select dept from member where idx=#{idx})=(select dept from member where idx=#{idx})
 		</if>
 		<if test="sort==3">
 			and com_idx=(select com_idx from member where idx=#{idx})
 		</if>
 		order by stime
 	</select>
+	<delete id="deleteSchedule" parameterType="int">
+		delete 
+		from scheduler
+		where scheduler_idx=#{scheduler_idx}
+	</delete>
 </mapper>

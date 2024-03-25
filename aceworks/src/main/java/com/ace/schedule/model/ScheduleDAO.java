@@ -8,5 +8,7 @@ public interface ScheduleDAO {
 	public int addSchedule(ScheduleDTO dto);
 	
 	public List<ScheduleDTO> listSchedule(Map map);
+	
+	public int delSchedule(int scheduler_idx);
 
 }

@@ -3,6 +3,7 @@ package com.ace.schedule.model;
 
 public class ScheduleDTO {
 	
+	private int schedule_idx;
 	private int idx;
 	private int com_idx;
 	private String sort;
@@ -18,9 +19,10 @@ public class ScheduleDTO {
 		// TODO Auto-generated constructor stub
 	}
 
-	public ScheduleDTO(int idx, int com_idx, String sort, String title, String content, String sdate, int stime,
-			int etime, int smna, int emna) {
+	public ScheduleDTO(int schedule_idx, int idx, int com_idx, String sort, String title, String content, String sdate,
+			int stime, int etime, int smna, int emna) {
 		super();
+		this.schedule_idx = schedule_idx;
 		this.idx = idx;
 		this.com_idx = com_idx;
 		this.sort = sort;
@@ -31,6 +33,14 @@ public class ScheduleDTO {
 		this.etime = etime;
 		this.smna = smna;
 		this.emna = emna;
+	}
+
+	public int getSchedule_idx() {
+		return schedule_idx;
+	}
+
+	public void setSchedule_idx(int schedule_idx) {
+		this.schedule_idx = schedule_idx;
 	}
 
 	public int getIdx() {
@@ -112,6 +122,5 @@ public class ScheduleDTO {
 	public void setEmna(int emna) {
 		this.emna = emna;
 	}
-
-
+	
 }

@@ -24,8 +24,13 @@ public class ScheduleDAOImple implements ScheduleDAO {
 		return list;
 	}
 	
-	public int delSchedule(int scheduler_idx) {
-		int result=sqlmap.delete("deleteSchedule", scheduler_idx);
+	public int delSchedule(int schedule_idx) {
+		int result=sqlmap.delete("deleteSchedule", schedule_idx);
+		return result;
+	}
+	
+	public int upSchedule(ScheduleDTO dto) {
+		int result=sqlmap.update("updateSchedule", dto);
 		return result;
 	}
 

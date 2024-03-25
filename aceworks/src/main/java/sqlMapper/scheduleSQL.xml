@@ -18,6 +18,15 @@
 		#{etime}
 		)
 	</insert>
+	<update id="updateSchedule" parameterType="com.ace.schedule.model.ScheduleDTO">
+		update scheduler
+		set 
+		title=#{title},
+		stime=#{stime},
+		etime=#{etime},
+		content=#{content}
+		where schedule_idx=#{schedule_idx}
+	</update>
 	<select id="selectSchedule" parameterType="Map" resultType="com.ace.schedule.model.ScheduleDTO">
 		select *
 		from scheduler
@@ -38,6 +47,6 @@
 	<delete id="deleteSchedule" parameterType="int">
 		delete 
 		from scheduler
-		where scheduler_idx=#{scheduler_idx}
+		where schedule_idx=#{schedule_idx}
 	</delete>
 </mapper>

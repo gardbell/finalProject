@@ -413,7 +413,7 @@ ul{
 				delBt.setAttribute('type','button');
 				delBt.innerHTML='<i id="ico" class="material-icons">delete</i>';
 				delBt.setAttribute('id','goButton');
-				delBt.setAttribute('onclick','delList('+lists[z].title+','+lists[z].stime+','+lists[z].etime+','+z+')');
+				delBt.setAttribute('onclick','delList('+lists[z].schedule_idx+','+z+')');
 				sInf.appendChild(timeSite);
 				sInf.appendChild(listData);
 				sInf.appendChild(delBt);
@@ -556,8 +556,7 @@ ul{
 			submitNode.setAttribute('onclick','addSchedule(new Date('+year+','+month+','+date+'))');
 			submitNode.innerHTML='등록';
 		}else{
-			submitNode.setAttribute('onclick','upSchedule('+titleNode.value+','+smnaSelectNode.value+','+stimeSelectNode.value+
-					','+emnaSelectNode.value+','+etimeSelectNode.value+','+contentNode.value+')');
+			submitNode.setAttribute('onclick','upSchedule('+list.schedule_idx+')');
 			submitNode.innerHTML='수정';
 		}
 		formNode.appendChild(submitNode);
@@ -588,16 +587,27 @@ ul{
 		'&smna='+smna.value+'&emna='+emna.value;
 		sendRequest('addSchedule.do',param,showResult,'POST');
 	}
+	function upSchedule(schedule_idx){
+		var title=document.getElementById('title').value;
+		var content=document.getElementById('content').value;
+		var stime=document.getElementById('stime').value;
+		var etime=document.getElementById('etime').value;
+		var smna=document.getElementById('smna').value;
+		var emna=document.getElementById('emna').value;
+		var param='schedule_idx='+schedule_idx+'&title='+title+'&content='+content+'&stime='+stime+'&etime='+etime+
+		'&smna='+smna+'&emna='+emna;
+		sendRequest('upSchedule.do',param,upResult,'POST');
+	}
 	//일정삭제 수행하는 함수
-	function delList(ptitle,pstime,petime,z){
-		var param="title="+ptitle+"&stime="+pstime+"&etime="+petime;
+	function delList(schedule_idx,z){
+		var param="schedule_idx="+schedule_idx;
 		var sdivNode=document.getElementById('sdiv');
 		var sdivChildNode=document.getElementById('sdivChildNode'+z);
 		sdivNode.removeChild(sdivChildNode);
 		sendRequest('delSchedule.do',param,delResult,'POST');
 	}
 	//현재 달력의 등록글들 select하기
-	function selectList(ref){
+	function selectList(){
 		var param="year="+year+"&month="+(month+1)+"&sort="+sort+"&idx="+idx+"&lastDate="+lastDate;
 		sendRequest('selectSchedule.do',param,listResult,'POST');
 	}
@@ -624,6 +634,21 @@ ul{
 				data1=JSON.parse(data1);
 				var msg=data1.msg;
 				alert(msg);
+			}
+		}
+	}
+	//수정 결과 보여주는 함수
+	function upResult(){
+		if(XHR.readyState==4){
+			if(XHR.status==200){
+				var data1=XHR.responseText;
+				data1=JSON.parse(data1);
+				var msg=data1.msg;
+				alert(msg);
+				if(msg=='수정완료'){
+					refin=1;
+					selectList();
+				}
 			}
 		}
 	}

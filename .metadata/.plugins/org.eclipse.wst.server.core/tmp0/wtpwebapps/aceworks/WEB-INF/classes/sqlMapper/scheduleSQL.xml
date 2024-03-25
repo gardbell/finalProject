@@ -7,6 +7,7 @@
 		insert into
 		scheduler
 		values(
+		scheduler_idx.nextval,
 		#{idx},
 		#{com_idx},
 		#{sort},
@@ -17,6 +18,15 @@
 		#{etime}
 		)
 	</insert>
+	<update id="updateSchedule" parameterType="com.ace.schedule.model.ScheduleDTO">
+		update scheduler
+		set 
+		title=#{title},
+		stime=#{stime},
+		etime=#{etime},
+		content=#{content}
+		where schedule_idx=#{schedule_idx}
+	</update>
 	<select id="selectSchedule" parameterType="Map" resultType="com.ace.schedule.model.ScheduleDTO">
 		select *
 		from scheduler
@@ -34,9 +44,9 @@
 		</if>
 		order by stime
 	</select>
-	<delete id="deleteSchedule" parameterType="Map">
+	<delete id="deleteSchedule" parameterType="int">
 		delete 
 		from scheduler
-		where title=#{title} and stime=#{stime} and etime=#{etime}
+		where schedule_idx=#{schedule_idx}
 	</delete>
 </mapper>

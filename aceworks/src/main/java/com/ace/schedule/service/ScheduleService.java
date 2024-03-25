@@ -11,6 +11,8 @@ public interface ScheduleService {
 	
 	public Map<String,List<ScheduleDTO>> listSchedule(Map map);
 	
-	public int delSchedule(int scheduler_idx);
+	public int delSchedule(int schedule_idx);
+	
+	public int upSchedule(ScheduleDTO dto);
 
 }

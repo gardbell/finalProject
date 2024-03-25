@@ -51,10 +51,23 @@ public class ScheduleServiceImple implements ScheduleService {
 		return dateMap;
 	}
 	
-	public int delSchedule(int scheduler_idx) {
-		int result=scheduleDao.delSchedule(scheduler_idx);
+	public int delSchedule(int schedule_idx) {
+		int result=scheduleDao.delSchedule(schedule_idx);
 		return result;
 	}
 	
+	public int upSchedule(ScheduleDTO dto) {
+		int result=3;
+		if(!(dto.getTitle()==null||dto.getTitle().equals(""))&&!(dto.getContent()==null||dto.getContent().equals(""))) {
+			if(dto.getSmna()==2) {
+				dto.setStime(dto.getStime()+12);
+			}
+			if(dto.getEmna()==2) {
+				dto.setEtime(dto.getEtime()+12);
+			}
+			result=scheduleDao.upSchedule(dto);
+		}
+		return result;
+	}
 	
 }
